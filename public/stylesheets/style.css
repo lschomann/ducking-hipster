@@ -1,0 +1,11 @@
+#navigation .navbar-inner {
+    background-image: linear-gradient(to bottom, #555,#333);
+}
+#navigation li.first img{
+    padding:5px;
+}
+#navigation li.first {
+    padding-right:10px;
+    color:black;
+    font-weight:bold;
+}
