@@ -10,6 +10,9 @@ var express = require('express')
 
 var app = express();
 
+// http://stackoverflow.com/questions/6059246/how-to-include-route-handlers-in-multiple-files-in-express
+routes = routes(app);
+
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
@@ -25,9 +28,6 @@ app.configure(function(){
 app.configure('development', function(){
     app.use(express.errorHandler());
 });
-
-app.get('/', routes.index);
-
 
 /* Error Handling
  * * * * * * * * * * * * * * * * * * * * * */
