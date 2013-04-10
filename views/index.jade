@@ -14,15 +14,38 @@ include includes/head
                     li.visible-desktop.first
                         img(src='images/logo30x30.png')
                         | Ducking-Hipster
-                    li.active
-                        a(href='#') Home
-                    li
-                        a(href='#about') About
-                    li
-                        a(href='#contact') Contact
                     li.dropdown
-                        a.dropdown-toggle(data-toggle='dropdown', href='#') Dropdown
-                            b.caret
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') File
+                        ul.dropdown-menu
+                            li
+                                a(href='#') Action
+                            li
+                                a(href='#') Another action
+                            li
+                                a(href='#') Something else here
+                            li.divider
+                            li.nav-header Nav header
+                            li
+                                a(href='#') Seperated Link
+                            li
+                                a(href='#') One more separated link
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Edit
+                        ul.dropdown-menu
+                            li
+                                a(href='#') Action
+                            li
+                                a(href='#') Another action
+                            li
+                                a(href='#') Something else here
+                            li.divider
+                            li.nav-header Nav header
+                            li
+                                a(href='#') Seperated Link
+                            li
+                                a(href='#') One more separated link
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Help
                         ul.dropdown-menu
                             li
                                 a(href='#') Action
@@ -37,9 +60,19 @@ include includes/head
                             li
                                 a(href='#') One more separated link
 
-    .container
-        .row
-
+    .container-fluid
+        .row-fluid
+            .span3
+                .well
+                    ul.nav.nav-list
+                        li.nav-header Navigation
+                        li.active
+                            a( href="#") Home
+                        li
+                            a( href="#" ) Library
+            .span9
+                .well
+                    |Main Content
         hr
 
         include includes/footer

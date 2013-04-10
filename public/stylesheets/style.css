@@ -2,10 +2,15 @@
     background-image: linear-gradient(to bottom, #555,#333);
 }
 #navigation li.first img{
-    padding:5px;
+    padding: 5px;
 }
 #navigation li.first {
-    padding-right:10px;
-    color:black;
-    font-weight:bold;
+    padding-right: 25px;
+    color: #ccc;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px #333;
+}
+.well {
+    background-image: linear-gradient(to bottom, #777,#555);
+    border-color:#666;
 }
