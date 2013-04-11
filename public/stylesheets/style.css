@@ -8,7 +8,17 @@
     padding-right: 25px;
     color: #ccc;
     font-weight: bold;
-    text-shadow: 0px 0px 5px #333;
+    text-shadow: 0 0 5px #333;
+}
+#navigation span.brand img{
+    padding-right:10px;
+}
+#navigation span.brand:hover {
+    color:#999;
+    cursor:default;
+}
+.navbar .btn{
+    margin-top:10px;
 }
 .well {
     background-image: linear-gradient(to bottom, #777,#555);

@@ -14,13 +14,21 @@
 
 
 module.exports = function(app){
+    
+    /*
+     * GET application login window
+     */
+     
+     app.get('/login', function(req, res) {
+         res.render('login.jade', {content: {title: 'Login'}});
+     });
 
     /*
      * GET main application window.
      */
 
     app.get('/', function(req, res){
-        res.render('index.jade', { title: 'Express' });
+        res.render('index.jade', {content: {title: 'Ducking-hipster'}});
     });
 
     /*
@@ -28,6 +36,6 @@ module.exports = function(app){
      */
 
     app.get('/main', function(req, res){
-        res.render('main.jade', {title: 'Ducking-hipster'});
+        res.render('main.jade', {content: {title: 'Ducking-hipster'}});
     })
 };

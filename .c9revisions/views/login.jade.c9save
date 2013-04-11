@@ -1,0 +1,5 @@
+{"ts":1365677842057,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1365677853200,"patch":[[{"diffs":[[1,".hero\n    | Geht!"]],"start1":0,"start2":0,"length1":0,"length2":17}]],"length":17,"saved":false}
+{"ts":1365678024570,"patch":[[{"diffs":[[1,"include includes/head\n    "],[0,".hero\n"],[1,"    "],[0,"    "]],"start1":0,"start2":0,"length1":10,"length2":40}]],"length":47,"saved":false}
+{"ts":1365678096735,"patch":[[{"diffs":[[0,"es/head\n"],[1,"\n"],[0,"    .her"]],"start1":14,"start2":14,"length1":16,"length2":17},{"diffs":[[0," | Geht!"],[1,"\n        \n    .container-fluid\n        .row-fluid\n        \n        hr\n        \n        include includes/footer\n    include includes/scripts"]],"start1":40,"start2":40,"length1":8,"length2":147}]],"length":187,"saved":false}
+{"ts":1365678343801,"patch":[[{"diffs":[[0,"head"],[-1,"\n\n    .hero\n        | Geht!"],[0,"\n   "]],"start1":17,"start2":17,"length1":35,"length2":8},{"diffs":[[0,"w-fluid\n        "],[1,"    .well\n                | Geht"],[0,"\n        hr\n    "]],"start1":63,"start2":63,"length1":32,"length2":64}]],"length":192,"saved":false}
