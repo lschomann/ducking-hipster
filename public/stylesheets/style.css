@@ -4,7 +4,6 @@
         padding-bottom:40px;
     }
 }
-
 #navigation .navbar-inner {
 background: #666666; /* Old browsers */
 background: -moz-linear-gradient(top,  #666666 0%, #333333 100%); /* FF3.6+ */
@@ -31,21 +30,28 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', end
     color:#999;
     cursor:default;
 }
+#navigation .nav-collapse a.btn{
+    float: right;
+    position: relative;
+    right: 10px;
+    bottom: 5px;
+}
 .navbar .btn{
     margin-top:10px;
 }
 .well {
-background: #666666; /* Old browsers */
-background: -moz-linear-gradient(top,  #666666 0%, #333333 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#666666), color-stop(100%,#333333)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #666666 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #666666 0%,#333333 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #666666 0%,#333333 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #666666 0%,#333333 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
+    background: #666666; /* Old browsers */
+    background: -moz-linear-gradient(top,  #666666 0%, #333333 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#666666), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #666666 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #666666 0%,#333333 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #666666 0%,#333333 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #666666 0%,#333333 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
 
+    position: relative;
     border-color:#555;
-    box-shadow: 0 0 6px black;
+    box-shadow: 0 0 5px #333;
 }
 .well hr{
     border-color: #222;
@@ -55,3 +61,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', end
     text-shadow:0 0 1px #888;
     color:#222;
 }
+.form-horizontal .controls {margin-left:10px;}
+#LoginArea{padding-top:50px;width:270px;}
+#keyhole{position: absolute;}
+#duck{position: relative;display:none;}
