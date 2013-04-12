@@ -8,26 +8,29 @@ include includes/head
                 .well
                     h2 Login
                     hr    
-                    form.form-horizontal
+                    form.form-horizontal( action='/login', method='post' )
                         .control-group
                             //label.control-label(for="inputEmail") Email
                             .controls
                                 .input-prepend
                                     span.add-on @
-                                    input#inputEmail(type="text", placeholder="Username")
+                                    input#inputEmail(type="text", placeholder="Username", name='username')
                                     
-
                         .control-group
                             //label.control-label(for="inputPassword") Password
                             .controls
                                 .input-prepend
                                     span.add-on ***
-                                    input#inputPassword(type="password", placeholder="Password")
+                                    input#inputPassword(type="password", placeholder="Password", name='password')
                                 
                         .control-group
                             .controls
-                                button.btn.btn-inverse(type="submit") Sign in
-                    
+                                button.btn.btn-inverse(type="submit", value='Submit') Sign in
+                                
+                    if(message) != 'Missing credentials'
+                        .alert.alert-error
+                            a.close( data-dismiss="alert", href="#" ) &times;
+                            | #{message}
         hr
         
         include includes/footer
