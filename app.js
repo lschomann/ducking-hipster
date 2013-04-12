@@ -9,62 +9,62 @@ var express = require('express')
     , path = require('path')
     , passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
-    
-    
+
+
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
-  , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
+    , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
 ];
 
 function findById(id, fn) {
-  var idx = id - 1;
-  if (users[idx]) {
-    fn(null, users[idx]);
-  } else {
-    fn(new Error('Benutzer ' + id + ' existiert nicht!'));
-  }
+    var idx = id - 1;
+    if (users[idx]) {
+        fn(null, users[idx]);
+    } else {
+        fn(new Error('Benutzer ' + id + ' existiert nicht!'));
+    }
 }
 
 function findByUsername(username, fn) {
-  for (var i = 0, len = users.length; i < len; i++) {
-    var user = users[i];
-    if (user.username === username) {
-      return fn(null, user);
+    for (var i = 0, len = users.length; i < len; i++) {
+        var user = users[i];
+        if (user.username === username) {
+            return fn(null, user);
+        }
     }
-  }
-  return fn(null, null);
+    return fn(null, null);
 }
 
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  findById(id, function (err, user) {
-    done(err, user);
-  });
+    findById(id, function (err, user) {
+        done(err, user);
+    });
 });
 
 // Use the LocalStrategy within Passport.
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // Find the user by username. If there is no user with the given
-      // username, or the password is not correct, set the user to `false` to
-      // indicate failure and set a flash message. Otherwise, return the
-      // authenticated `user`.
-      findByUsername(username, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Ups, ' + username + ' ist uns unbekannt!' }); }
-        if (user.password != password) { return done(null, false, { message: 'Dein Password ist nicht ganz korrekt!' }); }
-        return done(null, user);
-      });
-    });
-  }
+    function(username, password, done) {
+        // asynchronous verification, for effect...
+        process.nextTick(function () {
+
+            // Find the user by username. If there is no user with the given
+            // username, or the password is not correct, set the user to `false` to
+            // indicate failure and set a flash message. Otherwise, return the
+            // authenticated `user`.
+            findByUsername(username, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) { return done(null, false, { message: 'Ups, ' + username + ' ist uns unbekannt!' }); }
+                if (user.password != password) { return done(null, false, { message: 'Dein Password ist nicht ganz korrekt!' }); }
+                return done(null, user);
+            });
+        });
+    }
 ));
 
 
@@ -79,7 +79,7 @@ app.configure(function(){
     app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-        app.use(express.session({
+    app.use(express.session({
         secret: 'lkhlokgj5rgl5hnztglsdeerifdgh',
         maxAge: new Date(Date.now() + 900000),
         expires: new Date(Date.now() + 900000)
@@ -100,20 +100,20 @@ app.configure('development', function(){
 
 /* Authorisation
  * * * * * * * * * * * * * * * * * * * * * */
- 
+
 // POST /login
 app.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    if (err) { return next(err) }
-    if (!user) {
-      req.session.messages = [info.message];
-      return res.redirect('/login')
-    }
-    req.logIn(user, function(err) {
-      if (err) { return next(err); }
-      return res.redirect('/');
-    });
-  })(req, res, next);
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err) }
+        if (!user) {
+            req.session.messages = [info.message];
+            return res.redirect('/login')
+        }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            return res.redirect('/');
+        });
+    })(req, res, next);
 });
 
 
