@@ -2,8 +2,32 @@ include includes/head
         
     .container-fluid
         .row-fluid
-            .well
-                | Geht
+            .span4
+                 img( src='images/duck.svg', style="margin:10px;width:200px;height:200px;" )
+            .span7
+                .well
+                    h2 Login
+                    hr    
+                    form.form-horizontal
+                        .control-group
+                            //label.control-label(for="inputEmail") Email
+                            .controls
+                                .input-prepend
+                                    span.add-on @
+                                    input#inputEmail(type="text", placeholder="Username")
+                                    
+
+                        .control-group
+                            //label.control-label(for="inputPassword") Password
+                            .controls
+                                .input-prepend
+                                    span.add-on ***
+                                    input#inputPassword(type="password", placeholder="Password")
+                                
+                        .control-group
+                            .controls
+                                button.btn.btn-inverse(type="submit") Sign in
+                    
         hr
         
         include includes/footer
