@@ -1,9 +1,18 @@
 @media (min-width: 768px) and (max-width: 979px) {
     body{
-        padding-top:60px;
+        padding-top:0px;
         padding-bottom:40px;
     }
 }
+@media (max-width: 768px){
+    body{
+        padding-top:0px;
+        padding-bottom:40px;
+    }
+}
+
+/* Navigation Bar
+ ***********************************************/
 #navigation .navbar-inner {
     background: #666666; /* Old browsers */
     background: -moz-linear-gradient(top,  #666666 0%, #333333 100%); /* FF3.6+ */
@@ -39,6 +48,9 @@
 .navbar .btn{
     margin-top:10px;
 }
+
+/* Background Boxes
+ ***********************************************/
 .well {
     background: #666666; /* Old browsers */
     background: -moz-linear-gradient(top,  #666666 0%, #333333 100%); /* FF3.6+ */
@@ -61,6 +73,9 @@
     text-shadow:0 0 1px #888;
     color:#222;
 }
+
+/* Login
+ ***********************************************/
 .form-horizontal .controls {margin-left:10px;}
 #LoginArea{padding-top:50px;width:270px;}
 #keyhole{position: absolute;}

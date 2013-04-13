@@ -19,7 +19,7 @@ include includes/head
                         a.dropdown-toggle(data-toggle='dropdown', href='#') File
                         ul.dropdown-menu
                             li
-                                a(href='#') Action
+                                a#timeline(href='#') Show Timeline
                             li
                                 a(href='#') Another action
                             li
@@ -75,7 +75,8 @@ include includes/head
                             a( href="#" ) Library
             .span9
                 .well
-                    | Main Content
+                    #timeline-embed
+
         hr
 
         include includes/footer
