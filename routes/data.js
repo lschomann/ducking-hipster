@@ -6,10 +6,10 @@
  */
 
 
-DataModel = require("datamodel/datamodel");
+//DataModel = require(__dirname + "\\..\\datamodel\\datamodel.js");
 
 // monkey patch Backbone.js to use postgres data store.
-Backbone = require("backbone-postgresql.js");
+//Backbone = require("backbone-postgresql.js");
 
 Passport = require("passport");
 

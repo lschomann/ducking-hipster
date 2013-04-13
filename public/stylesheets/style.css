@@ -10,6 +10,9 @@
         padding-bottom:40px;
     }
 }
+body {
+    background: url('../images/background.jpg') repeat;
+}
 
 /* Navigation Bar
  ***********************************************/
@@ -49,6 +52,10 @@
     margin-top:10px;
 }
 
+hr {
+    border-color:#777;
+}
+
 /* Background Boxes
  ***********************************************/
 .well {
@@ -81,3 +88,16 @@
 #keyhole{position: absolute;}
 #duck{position: relative;display:none;}
 #duckText{position:absolute;top:20px;}
+
+
+.vco-storyjs{
+    background: url('../images/background.jpg') repeat;
+}
+
+.timenav-interval-background {
+    background: url('../images/background.jpg') repeat scroll 0 0 !important;
+}
+
+#timeline-embed{
+    box-shadow: 0 0 5px #333;
+}
