@@ -1,8 +1,7 @@
 
 Backbone = require("backbone");
 
-
-define(function(){
+exports = (function(){
 
     var Adress_ = Backbone.Model.extend({
         urlRoot: "/rest/adress",
@@ -39,10 +38,10 @@ define(function(){
         validate: function(attrs){
             // do something here
         }
-    })
+    });
 
     return {
         Adress:     Adress_,
         Room:       Room_
     };
-});
+})();
