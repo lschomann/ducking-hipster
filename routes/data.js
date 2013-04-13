@@ -25,8 +25,9 @@ module.exports = function(app){
      * GET all Room objects.
      */
 
-    app.get('/rest/room/all', function(req, res){
-        res.json({});
+    app.get('/rest/room/', function(req, res){
+        var objs = DataModel.Room.read();
+        res.json(objs.toJSON());
     });
 
     /*** END Room ***
@@ -40,7 +41,10 @@ module.exports = function(app){
      */
 
     app.get('/rest/adress/', function(req, res){
-        res.json({});
+
+
+        var objs = DataModel.Adress.read();
+        res.json(objs.toJSON());
     });
 
     /*
@@ -80,4 +84,40 @@ module.exports = function(app){
 
     /*** END Adress ***
      ******************/
+
+    /********************
+     ***  BEGIN Entry ***/
+
+    app.get(
+        '/rest/entry/',
+        function(req, res){
+            var objs = DataModel.Entry.read();
+            res.json(objs.toJSON());
+    });
+
+    app.post(
+        '/rest/entry/',
+        Passport.authenticate('local', { failureRedirect: '/login'}),
+        function(req, res){
+            res.json({});
+        }
+    )
+
+    app.put(
+        '/rest/entry/(\d+)',
+        Passport.authenticate('local', { failureRedirect: '/login'}),
+        function(req, res){
+            res.json({hello: "World"});
+        }
+    )
+
+    app.delete(
+        '/rest/entry/(\d+)',
+        Passport.authenticate('local', { failureRedirect: '/login'}),
+        function(req, res){
+            res.json({hello: "World"});
+    });
+
+    /*** END Entry ***
+     *****************/
 };
