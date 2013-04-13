@@ -7,8 +7,9 @@ include includes/head
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
-            a.brand.hidden-desktop( href='#')
-                img(src='images/logo30x30.png')
+            span.brand.hidden-desktop
+                img(src='images/logo30x30.png') 
+                | Ducking Hipster
             .nav-collapse.collapse
                 ul.nav
                     li.visible-desktop.first
@@ -59,6 +60,8 @@ include includes/head
                                 a(href='#') Seperated Link
                             li
                                 a(href='#') One more separated link
+                a.btn.btn-danger( href='/logout' )
+                    i.icon-off.icon-white
 
     .container-fluid
         .row-fluid
@@ -72,7 +75,7 @@ include includes/head
                             a( href="#" ) Library
             .span9
                 .well
-                    |Main Content
+                    | Main Content
         hr
 
         include includes/footer

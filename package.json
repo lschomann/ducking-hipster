@@ -1,12 +1,34 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
-  "dependencies": {
-    "express": "3.0.6",
-    "jade": "*"
-  }
+	"name": "Ducking-Hipster",
+	"version": "0.0.1",
+	"private": true,
+	"author": "Lukas Schomann <lschomann@gmail.com>",
+	"description": "a simple roomplanning software",
+	"contributors": [ 
+		{
+			"name": "Malte Engelhardt",
+			"email": "kurvenschubser@gmail.com"
+		},
+		{
+			"name": "Mike Ritter"
+		}		
+	],
+	"scripts": {
+		"start": "node app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/lschomann/ducking-hipster.git"
+	},
+	"dependencies": {
+		"express": "3.0.6",
+		"jade": "*",
+		"backbone":"1.0.0",
+		"passport":"0.1.16",
+		"passport-local":"0.1.6"
+	},
+	"license":"GPL",
+	"engines": {
+		"node": ">=0.6"
+	}
 }
