@@ -8,7 +8,10 @@ var express = require('express')
     , http = require('http')
     , path = require('path')
     , passport = require('passport')
-    , LocalStrategy = require('passport-local').Strategy;
+    , LocalStrategy = require('passport-local').Strategy
+    , orm = require("orm")
+    , ormModels = require("./datamodel/ormModels")
+    , secrets = require("./secrets");
 
 
 var users = [
@@ -80,10 +83,13 @@ app.configure(function(){
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.session({
-        secret: 'lkhlokgj5rgl5hnztglsdeerifdgh',
+        secret: secrets.session.secret,
         maxAge: new Date(Date.now() + 900000),
         expires: new Date(Date.now() + 900000)
 
+    }));
+    app.use(orm.express(secrets.getDBConnectionString(), {
+        define: ormModels.setup
     }));
     app.use(passport.initialize());
     app.use(passport.session());

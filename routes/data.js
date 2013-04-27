@@ -7,6 +7,7 @@
 
 
 path = require("path");
+pg = require("pg");
 
 DataModel = require(path.join(__dirname, "..", "datamodel", "datamodel"));
 
@@ -22,13 +23,144 @@ module.exports = function(app){
      *** BEGIN Room ***/
 
     /*
+     * GET a form to test all the following functionnality, i.e. GET, POST, PUT, DELETE
+     */
+
+    app.get('/rest/room/testform', function(req, res){
+        //res.render('testform__rest__room', {'id': req.params.id});
+        var url = '/rest/room/';
+        res.render(
+            'testrest.jade', {
+                content: { title: "Test form for model 'room' CRUD methods."},
+                model: 'room',
+                forms: {
+                    getAll: {
+                        title: "Get all",
+                        id: 'get-all',
+                        action: url,
+                        method: 'GET',
+                        fields: []
+                    },
+                    getOne: {
+                        title: 'Get by ID',
+                        id: 'get-one',
+                        action: url,
+                        method: 'GET',
+                        fields: [
+                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                        ]
+                    },
+                    create: {
+                        title: 'Create',
+                        id: 'create',
+                        action: url,
+                        method: 'POST',
+                        fields: [
+                            { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                            { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                            { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                            { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                        ]
+                    },
+                    update: {
+                        title: 'Update',
+                        id: 'update',
+                        action: url,
+                        method: 'PUT',
+                        fields: [
+                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' },
+                            { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                            { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                            { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                            { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                        ]
+                    },
+                    delete: {
+                        title: 'Delete',
+                        id: 'delete',
+                        action: url,
+                        method: 'DELETE',
+                        fields: [
+                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                        ]
+                    }
+                }
+            });
+    });
+
+
+    /*
+     * GET the Room object specified by *id*.
+     */
+    app.get('/rest/room/:id', function(req, res){
+        var obj = req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
+            if (err){
+                res.send(404, {'error': err});
+            } else {
+                res.json(findings[0]);
+            }
+        });
+    });
+
+    /*
      * GET all Room objects.
      */
 
     app.get('/rest/room/', function(req, res){
-        var objs = DataModel.Room.read();
-        res.json(objs.toJSON());
+        var objs = req.models.room.find({}, function(err, findings){
+            res.json((findings));
+        });
     });
+
+    /*
+     * POST create a new Room entry on the database. Return newly created item's id.
+     */
+    app.post('/rest/room/', function(req, res){
+        var obj = req.models.room.create(
+            [{desc: req.body.desc,
+                number: req.body.number,
+                floor: req.body.floor,
+                capacity: req.body.capacity }],
+            function(err, items){
+                !err && res.json((items[0]));
+            }
+        );
+    });
+
+    app.put('/rest/room/:id', function(req, res){
+        req.models.room.find({id: req.params.id}, function(err, findings){
+            if (err){
+                res.json({'error': err});
+            } else {
+                findings[0].desc = req.body.desc || findings[0].desc;
+                findings[0].number = req.body.number || findings[0].number;
+                findings[0].floor = req.body.floor || findings[0].floor;
+                findings[0].capacity = req.body.capacity || findings[0].capacity;
+                findings[0].save();
+
+                res.json((findings[0]));
+            }
+        });
+    });
+
+    app.delete('/rest/room/:id', function(req, res){
+        req.models.room.find({id: req.params.id}, function(err, findings){
+            if (err){
+                res.send(500, {'error': err});
+                return;
+            } else {
+                findings[0].remove(function(err){
+                    if (err){
+                        res.send(500, {'error': err});
+                        return;
+                    } else {
+                        res.send(200);
+                    }
+                });
+            }
+        });
+    });
+
 
     /*** END Room ***
      ****************/
@@ -40,46 +172,40 @@ module.exports = function(app){
      * GET All Adress objects.
      */
 
-    app.get('/rest/adress/', function(req, res){
+    app.get('/rest/address/', function(req, res){
 
 
-        var objs = DataModel.Adress.read();
-        res.json(objs.toJSON());
-    });
-
-    /*
-     * GET The Adress object that has the given id. Returns 404 Not Found if the id does not exist.
-     */
-    app.get('/rest/adress/(\d+)', function(req, res){
-        var obj = DataModel.Adress.read({id: parseInt(req.body.params[0])});
-        return res.json(obj.toJSON());
-    });
-
-    /*
-     * POST Create Adress object with the given values. Return newly created object.
-     */
-    app.post('/rest/adress/', function(req, res){
-        var obj = new DataModel.Adress({"street": req.body.street, "number": req.body.number,
-                                        "city": req.body.city, "zip": req.body.zip});
-        return obj.save();
-    });
-
-    /*
-     * UPDATE Adress object with the given id.
-     */
-    app.put('/rest/adress/(\d+)', function(req, res){
-        var obj = DataModel.Adress.read({id: parseInt(req.body.params[0])});
-        return obj.save({"street": req.body.street, "number": req.body.number,
-                         "city": req.body.city, "zip": req.body.zip});
 
     });
 
     /*
-     * DELETE Adress object with the given id.
+     * GET The Address object that has the given id. Returns 404 Not Found if the id does not exist.
      */
-    app.delete('/rest/adress/(\d+)', function(reg, res){
-        var obj = DataModel.Adress.read({id:parseInt(reg.body.params[0])});
-        return obj.delete();
+    app.get('/rest/address/:id', function(req, res){
+
+    });
+
+    /*
+     * POST Create Address object with the given values. Return newly created object.
+     */
+    app.post('/rest/address/', function(req, res){
+        var d = {"street": req.body.street, "number": req.body.number,
+                                        "city": req.body.city, "zip": req.body.zip};
+    });
+
+    /*
+     * UPDATE Address object with the given id.
+     */
+    app.put('/rest/address/:id', function(req, res){
+        var d = {"street": req.body.street, "number": req.body.number,
+                         "city": req.body.city, "zip": req.body.zip};
+    });
+
+    /*
+     * DELETE Address object with the given id.
+     */
+    app.delete('/rest/address/:id', function(reg, res){
+        var d = {id:parseInt(reg.body.params[0])};
     });
 
     /*** END Adress ***
@@ -91,8 +217,7 @@ module.exports = function(app){
     app.get(
         '/rest/entry/',
         function(req, res){
-            var objs = DataModel.Entry.read();
-            res.json(objs.toJSON());
+
     });
 
     app.post(
@@ -104,7 +229,7 @@ module.exports = function(app){
     )
 
     app.put(
-        '/rest/entry/(\d+)',
+        '/rest/entry/:id',
         Passport.authenticate('local', { failureRedirect: '/login'}),
         function(req, res){
             res.json({hello: "World"});
@@ -112,7 +237,7 @@ module.exports = function(app){
     )
 
     app.delete(
-        '/rest/entry/(\d+)',
+        '/rest/entry/:id',
         Passport.authenticate('local', { failureRedirect: '/login'}),
         function(req, res){
             res.json({hello: "World"});
