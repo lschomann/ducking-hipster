@@ -7,13 +7,7 @@
 
 
 path = require("path");
-pg = require("pg");
-
 DataModel = require(path.join(__dirname, "..", "datamodel", "datamodel"));
-
-// monkey patch Backbone.js to use postgres data store.
-Backbone = require(path.join(__dirname, "..", "public", "javascripts", "modules", "backbone-postgresql.js"));
-
 Passport = require("passport");
 
 
