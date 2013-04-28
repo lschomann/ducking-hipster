@@ -22,20 +22,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/gen-data/', function(req, res){
-        var abc = "abcdefghijklmnopqrstuvwxyzüöäß";
-        var len_abc = abc.length;
-        var models_ = [
-            req.models.room,
-            req.models.address,
-            req.models.location,
-            req.models.role,
-            req.models.permission,
-            req.models.person,
-            req.models.resource,
-            req.models.resource_kind,
-            req.models.entry,
-            req.models.building
-        ];
+        var abc = "abcdefghijklmnopqrstuvwxyzüöäABCDEFGHIJKLMNOPQRSTUVWXYZÜÖÄ";
 
         var pickAsMany = function(from, howMany){
             var L = [];
