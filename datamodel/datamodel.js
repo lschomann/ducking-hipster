@@ -1,11 +1,10 @@
 
 Backbone = require("backbone");
 
-
-define(function(){
+exports = (function(){
 
     var Adress_ = Backbone.Model.extend({
-        urlRoot: "/rest/adress",
+        urlRoot: "/rest/adress/",
         defaults: {
             street: "",
             number: 0,
@@ -29,7 +28,7 @@ define(function(){
     });
 
     var Room_ = Backbone.Model.extend({
-        urlRoot: "/rest/room",
+        urlRoot: "/rest/room/",
         defaults: {
             desc: "",
             number: 0,
@@ -39,10 +38,22 @@ define(function(){
         validate: function(attrs){
             // do something here
         }
+    });
+
+    var Entry_ = Backbone.Model.extend({
+        urlRoot: "/rest/entry/",
+        defaults: {
+            begin: null,
+            end: null
+        },
+        validate: function(attrs){
+            // do something
+        }
     })
 
     return {
         Adress:     Adress_,
-        Room:       Room_
+        Room:       Room_,
+        Entry:      Entry_
     };
-});
+})();
