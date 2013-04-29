@@ -90,14 +90,9 @@ hr {
 #duckText{position:absolute;top:20px;}
 
 
-.vco-storyjs{
-    background: url('../images/background.jpg') repeat;
-}
 
-.timenav-interval-background {
-    background: url('../images/background.jpg') repeat scroll 0 0 !important;
-}
-
-#timeline-embed{
-    box-shadow: 0 0 5px #333;
-}
+/* Timeline
+ ***********************************************/
+.vco-storyjs, #timeline-embed, .vco-loading{background: url('../images/background.jpg') repeat;}
+.timenav-interval-background {background: url('../images/background.jpg') repeat scroll 0 0 !important;}
+#timeline-embed{box-shadow: 0 0 5px #333;}
