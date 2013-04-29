@@ -9,6 +9,7 @@
 
 $(document).ready(function(){
     $("#duck").fadeIn();
+    $('.cal1').datepicker();
 });
 
 $("#duck").click(function(){
