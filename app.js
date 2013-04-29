@@ -14,7 +14,7 @@ var express = require('express')
     , secrets = require("./secrets");
 
 var postgress_json = process.env.VCAP_SERVICES;
-console.log(postgress_json);
+console.log(JSON.stringify(postgress_json));
 
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
