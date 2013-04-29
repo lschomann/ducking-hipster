@@ -235,7 +235,6 @@ module.exports = function(app){
      * GET the Room object specified by *id*.
      */
 
-
     app.get('/rest/room/:id', function(req, res){
         req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
@@ -245,6 +244,7 @@ module.exports = function(app){
             }
         });
     });
+    
     /*
      * GET all Room objects.
      */
@@ -270,6 +270,10 @@ module.exports = function(app){
             }
         );
     });
+    
+    /*
+     * PUT Update the Room entry of the given *id*.
+     */
 
     app.put('/rest/room/:id', function(req, res){
         req.models.room.find({id: req.params.id}, function(err, findings){
@@ -483,7 +487,70 @@ module.exports = function(app){
             }
         });
     });
-
+    
+    
+    app.post('/rest/entry/:id/rooms/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.room.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRooms(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+     
+    app.post('/rest/entry/:id/participants/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.people.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setParticipants(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+     
+    app.post('/rest/entry/:id/resources/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.resource.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setResources(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
 
     /*** END Entry ***
      *****************/
@@ -640,6 +707,36 @@ module.exports = function(app){
             }
         });
     });
+    
+    /*
+     * POST Update relation Permission.roles
+     */
+     
+    app.post('/rest/permission/:id/roles/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+         
+        req.models.permission.find({id: parseInt(req.params.id)}, function(err, findings){
+            if (err){
+                res.send(500, {'error': err});
+            } else {
+                req.models.roles.find({id: ids}, function(err, findings_){ 
+                    if (err) { 
+                        res.send(500, {'error': err});
+                    } else {
+                        findings[0].setRoles(findings_, function(err){
+                            if (err){
+                                res.send(500, {'error': err});
+                            } else {
+                                res.send(200);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+     });
+
 
     /*** END Permission ***
      **********************/
@@ -722,6 +819,56 @@ module.exports = function(app){
         });
     });
 
+    /*
+     * POST Update relation Person.address
+     */
+     
+    app.post('/rest/person/:id/address/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.person.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.address.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setAddress(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+     
+    /*
+     * POST Update relation Person.roles
+     */
+     
+    app.post('/rest/person/:id/roles/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+         
+        req.models.person.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.role.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRoles(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+
 
     /*** END Person ***
      ******************/
@@ -802,6 +949,32 @@ module.exports = function(app){
             }
         });
     });
+    
+    /*
+     * POST Update relation Resource.kind
+     */
+     
+    app.post('/rest/resource/:id/kind/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.resource.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.kind.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setKind(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+
 
     /*** END Resource ***
      ********************/
@@ -960,11 +1133,86 @@ module.exports = function(app){
             }
         });
     });
+    
+    
+    /*
+     * POST Update relation Location.address
+     */
+     
+    app.post('/rest/location/:id/address/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.location.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.address.find({id: ids}, function(err, findings){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setAddress(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+     });
+     
+        
+    /*
+     * POST Update relation Location.buildings
+     */
+     
+    app.post('/rest/location/:id/buildings/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+         
+        req.models.location.find({id: req.params.id}, function(err, findings){
+            req.models.buildings.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setBuildings(findings, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
+
+    /*
+     * POST Update relation Location.people
+     */
+     
+    app.post('/rest/location/:id/people/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+         
+        req.models.location.find({id: parseInt(req.params.id)}, function(err, findings_){
+            req.models.people.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setPeople(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            }); 
+        });
+     });
 
     /*** END Location ***
      ********************/
-
-
 
     /**************************
      *** BEGIN Building ***/
@@ -1038,6 +1286,31 @@ module.exports = function(app){
                     }
                 });
             }
+        });
+    });
+   
+    /*
+     * POST Update relation Building.rooms
+     */
+     
+    app.post('/rest/building/:id/rooms/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        
+        req.models.building.find({id: parseInt(req.params.id)}, function(err, findings){
+            req.models.building.find({id: ids}, function(err, findings_){ 
+                if (err) { 
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRooms(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
         });
     });
 
