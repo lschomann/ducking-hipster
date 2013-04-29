@@ -88,9 +88,11 @@ app.configure(function(){
         expires: new Date(Date.now() + 900000)
 
     }));
-//    app.use(orm.express(secrets.getDBConnectionString(), {
-//        define: ormModels.setup
-//    }));
+
+    app.use(orm.express(secrets.getDBConnectionString(), {
+        define: ormModels.setup
+    }));
+
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);

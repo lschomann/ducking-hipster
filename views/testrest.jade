@@ -1,71 +1,86 @@
 include includes/head
 
+    .container
+        .dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#') Data model
+            ul.dropdown-menu
+                li
+                    a(href='#') #{frm.model
+                li
+                    a(href='#') Another action
+                li
+                    a(href='#') Something else here
+                li.divider
+                li.nav-header Nav header
+                li
+                    a(href='#') Seperated Link
+                li
+                    a(href='#') One more separated link
 
-    script(type='text/javascript')
-        var fns = [];
-
-        function gather_data(cssID, h){
-            $('#' + cssID + ' input[type!="submit"]').each(function(idx, obj){
-                var jQobj = $(obj);
-                h[jQobj.attr('name')] = jQobj.val();
-            });
-        }
-
-    for frm, frmname in forms
         script(type='text/javascript')
-            fns.push(function(){
-                var foo = $('##{frm.id}').on('submit', function(e){
-                    e.preventDefault();
-                    var url = '#{frm.action}';
-                    var data = {};
-                    var opts = {
-                        url: url,
-                        type: '#{frm.method}',
-                        contentType: 'application/json'
-                    };
+            var fns = [];
 
-                    if ('#{frm.method}' == 'GET' && '#{frm.id}' == 'get-one'
-                        || '#{frm.method}' == 'PUT'
-                        || '#{frm.method}' == 'DELETE'){
-
-                        gather_data('#{frm.id}', data);
-
-                        var entry_id = data['entry_id'];
-                        opts['url'] += entry_id;
-                        delete data['entry_id'];
-                        opts['data'] = JSON.stringify(data);
-                    }
-
-                    $.ajax(opts);
-                })
-
-                console.log(JSON.stringify(foo, null, 4));
-
-                foo.done(function(data){
-                    $('#output').text(JSON.stringify(data, null, 4));
+            function gather_data(cssID, h){
+                $('#' + cssID + ' input[type!="submit"]').each(function(idx, obj){
+                    var jQobj = $(obj);
+                    h[jQobj.attr('name')] = jQobj.val();
                 });
+            }
+
+
+
+        for frm, frmname in forms
+            script(type='text/javascript')
+                fns.push(function(){
+                    var foo = $('##{frm.id}').on('submit', function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var url = '#{frm.action}';
+                        var data = {};
+                        var opts = {
+                            url: url,
+                            type: '#{frm.method}',
+                            contentType: 'application/json'
+                        };
+
+                        if ('#{frm.method}' == 'GET' && '#{frm.id}' == 'get-one'
+                            || '#{frm.method}' == 'PUT'
+                            || '#{frm.method}' == 'DELETE'){
+
+                            gather_data('#{frm.id}', data);
+
+                            opts['url'] += data['entry_id'];
+                            delete data['entry_id'];
+                            opts['data'] = JSON.stringify(data);
+                        }
+
+                        $.ajax(opts).done(function(data){
+                            $('#output').text(JSON.stringify(data, null, 4));
+                        });
+                    })
+                });
+
+        script(type='text/javascript')
+            // on document ready
+            $(function(){
+                for (var i in fns){
+                    fns[i]();
+                }
             });
 
-    script(type='text/javascript')
-        // on document ready
-        $(function(){
-            for (var i in fns){
-                fns[i]();
-            }
-        });
+        h1 REST test form for model '#{model}'
 
-    h1 REST test form for model '#{model}'
-
-    for frm, frmname in forms
-        h2 #{frm.title}
-        form(id='#{frm.id}', action='#{frm.action}', method='#{frm.method}')
-            each fld in frm.fields
-                input(class=fld.class, type=fld.type, placeholder=fld.placeholder, name=fld.name)
-            input(type='submit', value='Send')
+        for frm, frmname in forms
+            h2 #{frm.title}
+            form(id='#{frm.id}', action='#{frm.action}', method='#{frm.method}')
+                each fld in frm.fields
+                    input(class=fld.class, type=fld.type, placeholder=fld.placeholder, name=fld.name)
+                input(type='submit', value='Send')
 
 
-    div#output-title
-    div#output
+        div#output-title
+        div#output
 
-include includes/footer
-include includes/scripts
+        include includes/scripts
+    include includes/footer
