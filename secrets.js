@@ -7,8 +7,14 @@
  */
 
 var db_;
+var vcap = null;
 try{
-    var vcap = JSON.parse(process.env.VCAP_SERVICES);
+    vcap = JSON.parse(process.env.VCAP_SERVICES);
+} catch(e) {
+    // pass
+}
+
+if (vcap){
     db_= {
         type: "postgres",
         user: vcap["postgresql-9.1"][0]["credentials"]["user"],
@@ -17,7 +23,7 @@ try{
         port: vcap["postgresql-9.1"][0]["credentials"]["port"],               // leave as empty string for default port
         database: vcap["postgresql-9.1"][0]["credentials"]["name"]
     };
-} catch(e) {
+} else {
     var db_ = {
         type: "postgres",
         user: "postgres",
