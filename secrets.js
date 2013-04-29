@@ -7,7 +7,7 @@
  */
 
 var db_;
-if (process.env.VCAP_SERVICES){
+try{
     db_= {
         type: "postgres",
         user: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["user"],
@@ -16,7 +16,7 @@ if (process.env.VCAP_SERVICES){
         port: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["port"],               // leave as empty string for default port
         database: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["name"]
     };
-} else {
+} catch(e) {
     var db_ = {
         type: "postgres",
         user: "postgres",
