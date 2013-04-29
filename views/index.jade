@@ -72,13 +72,20 @@ include includes/head
     .container-fluid
         .row-fluid
             .span3
-                .well
+                .well#menu
                     #filter
-                        h3 Rooms
+                        h3 Datum
                         .cal1
-                        .cal2
-            .span9
-                #timeline-embed
+                        h3 Raumgröße
+                        input#amount(type="text", placeholder="Anzahl Personen" )
+                        hr
+                        .btn.btn-inverse#search
+                            i.icon-search.icon-white
+                            | &nbsp;Suchen
+
+            .span9#content
+                .well
+                    #timeline-embed
 
         hr
 

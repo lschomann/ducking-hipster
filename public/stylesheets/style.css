@@ -52,12 +52,9 @@ body {
     margin-top:10px;
 }
 
-hr {
-    border-bottom-color:#999;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-top-color: transparent;
-}
+/* Left Menu
+ ***********************************************/
+#menu{width:240px;}
 
 /* Background Boxes
  ***********************************************/
@@ -83,7 +80,21 @@ hr {
     text-shadow:0 0 1px #888;
     color:#222;
 }
+
+/* Content
+ ***********************************************/
+#content{display:none;}
+
+/* Footer
+ ***********************************************/
 footer {color:#444;text-shadow: 0 0 5px #888;}
+
+hr {
+    border-bottom-color:#999;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+}
 
 /* Login
  ***********************************************/
@@ -94,9 +105,24 @@ footer {color:#444;text-shadow: 0 0 5px #888;}
 #duckText{position:absolute;top:20px;}
 
 
-
 /* Timeline
  ***********************************************/
 .vco-storyjs, #timeline-embed, .vco-loading{background: url('../images/background.jpg') repeat;}
-.timenav-interval-background {background: url('../images/background.jpg') repeat scroll 0 0 !important;}
-#timeline-embed{box-shadow: 0 0 5px #333;}
+.timenav-interval-background {background: #333 !important;}
+.vco-storyjs .vco-container.vco-main {box-shadow: inset 0 0 10px #000;-moz-box-shadow: inset 0 0 10px #333;-webkit-box-shadow: inset 0 0 10px #333;}
+.storyjs-embed.full-embed {
+    border-top-left-radius:5px !important;
+    border-top-right-radius:5px !important;
+    -moz-border-radius-topleft: 5px !important;
+    -moz-border-radius-topright: 5px !important;
+    -webkit-border-top-left-radius: 5px !important;
+    -webkit-border-top-right-radius: 5px !important;}
+#timeline-embed{box-shadow: 0 0 5px #333;-moz-box-shadow: 0 0 5px #333;-webkit-box-shadow:0 0 5px #333;}
+
+/* Calendar
+ ***********************************************/
+.ui-datepicker{width:15em;}
+
+/* Buttons
+ ***********************************************/
+#search{color:#666;}
