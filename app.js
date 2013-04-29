@@ -13,8 +13,8 @@ var express = require('express')
     , ormModels = require("./datamodel/ormModels")
     , secrets = require("./secrets");
 
-$postgress_json = process.env.VCAP_SERVICES;
-
+var postgress_json = process.env.VCAP_SERVICES;
+console.log(postgress_json);
 
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
