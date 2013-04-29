@@ -8,13 +8,14 @@
 
 var db_;
 try{
+    var vcap = JSON.parse(process.env.VCAP_SERVICES);
     db_= {
         type: "postgres",
-        user: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["user"],
-        pass: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["password"],
-        host: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["host"],
-        port: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["port"],               // leave as empty string for default port
-        database: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["name"]
+        user: vcap["postgresql-9.1"][0]["credentials"]["user"],
+        pass: vcap["postgresql-9.1"][0]["credentials"]["password"],
+        host: vcap["postgresql-9.1"][0]["credentials"]["host"],
+        port: vcap["postgresql-9.1"][0]["credentials"]["port"],               // leave as empty string for default port
+        database: vcap["postgresql-9.1"][0]["credentials"]["name"]
     };
 } catch(e) {
     var db_ = {
