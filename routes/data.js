@@ -37,7 +37,7 @@ module.exports = function(app){
         var maxEntries = 100;
         var j;
         while(j < maxEntries){
-            var obj = req.models.room.create(
+            obj = req.models.room.create(
                 [{desc: pickAsMany(abc, 45),
                     number: _.random(500),
                     floor: _.random(100),
@@ -236,7 +236,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/room/:id', function(req, res){
-        req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.room.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -320,7 +320,7 @@ module.exports = function(app){
 
 
     app.get('/rest/address/:id', function(req, res){
-        req.models.address.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.address.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -408,7 +408,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/entry/:id', function(req, res){
-        req.models.entry.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.entry.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -491,9 +491,9 @@ module.exports = function(app){
     
     app.post('/rest/entry/:id/rooms/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.room.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -512,9 +512,9 @@ module.exports = function(app){
      
     app.post('/rest/entry/:id/participants/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.people.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -533,9 +533,9 @@ module.exports = function(app){
      
     app.post('/rest/entry/:id/resources/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.entry.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.resource.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -563,7 +563,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/role/:id', function(req, res){
-        req.models.role.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.role.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -642,7 +642,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/permission/:id', function(req, res){
-        req.models.permission.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.permission.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -714,13 +714,13 @@ module.exports = function(app){
      
     app.post('/rest/permission/:id/roles/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
          
-        req.models.permission.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.permission.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             if (err){
                 res.send(500, {'error': err});
             } else {
-                req.models.roles.find({id: ids}, function(err, findings_){ 
+                req.models.role.find({id: ids}, function(err, findings_){ 
                     if (err) { 
                         res.send(500, {'error': err});
                     } else {
@@ -750,7 +750,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/person/:id', function(req, res){
-        req.models.person.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.person.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -825,9 +825,9 @@ module.exports = function(app){
      
     app.post('/rest/person/:id/address/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.person.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.address.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -850,9 +850,9 @@ module.exports = function(app){
      
     app.post('/rest/person/:id/roles/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
          
-        req.models.person.find({id: parseInt(req.params.id)}, function(err, findings){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.role.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -882,7 +882,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource/:id', function(req, res){
-        req.models.resource.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.resource.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -956,10 +956,10 @@ module.exports = function(app){
      
     app.post('/rest/resource/:id/kind/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.resource.find({id: parseInt(req.params.id)}, function(err, findings){
-            req.models.kind.find({id: ids}, function(err, findings_){ 
+        req.models.resource.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.resource_kind.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
                 } else {
@@ -988,7 +988,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource_kind/:id', function(req, res){
-        req.models.resource_kind.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.resource_kind.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -1067,7 +1067,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/location/:id', function(req, res){
-        req.models.location.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.location.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -1141,10 +1141,10 @@ module.exports = function(app){
      
     app.post('/rest/location/:id/address/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.location.find({id: parseInt(req.params.id)}, function(err, findings){
-            req.models.address.find({id: ids}, function(err, findings){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.address.find({id: ids}, function(err, findings_){
                 if (err) {
                     res.send(500, {'error': err});
                 } else {
@@ -1167,7 +1167,7 @@ module.exports = function(app){
      
     app.post('/rest/location/:id/buildings/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
          
         req.models.location.find({id: req.params.id}, function(err, findings){
             req.models.buildings.find({id: ids}, function(err, findings_){ 
@@ -1192,9 +1192,9 @@ module.exports = function(app){
      
     app.post('/rest/location/:id/people/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
          
-        req.models.location.find({id: parseInt(req.params.id)}, function(err, findings_){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
             req.models.people.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
@@ -1222,7 +1222,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/building/:id', function(req, res){
-        req.models.building.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.building.find( { id: parseInt(req.params.id, 10) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -1288,6 +1288,16 @@ module.exports = function(app){
             }
         });
     });
+    
+    /*
+     * GET Access the related items in Building.rooms
+     */
+    
+    app.get('/rest/building/:id/rooms/', function(req, res){
+        req.models.building.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getRooms()));
+        });
+    });
    
     /*
      * POST Update relation Building.rooms
@@ -1295,10 +1305,10 @@ module.exports = function(app){
      
     app.post('/rest/building/:id/rooms/', function(req, res){
         var ids = req.body.ids.split(",");
-        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj); } );
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
         
-        req.models.building.find({id: parseInt(req.params.id)}, function(err, findings){
-            req.models.building.find({id: ids}, function(err, findings_){ 
+        req.models.building.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.room.find({id: ids}, function(err, findings_){ 
                 if (err) { 
                     res.send(500, {'error': err});
                 } else {
