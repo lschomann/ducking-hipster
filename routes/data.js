@@ -17,6 +17,10 @@ module.exports = function(app){
     /*******************************
      *** BEGIN Utility functions ***/
 
+    app.get('/rest/get-vcap_services', function(req, res){
+        res.json(JSON.stringify(process.env.VCAP_SERVICES));
+    });
+
     /*
      * GET Generate test data
      */
