@@ -22,7 +22,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/gen-data/', function(req, res){
-        var abc = "abcdefghijklmnopqrstuvwxyzüöäABCDEFGHIJKLMNOPQRSTUVWXYZÜÖÄ";
+        var abc = "abcdefghijklmnopqrstuvwxyzï¿½ï¿½ï¿½ABCDEFGHIJKLMNOPQRSTUVWXYZï¿½ï¿½ï¿½";
 
         var pickAsMany = function(from, howMany){
             var L = [];
@@ -432,6 +432,50 @@ module.exports = function(app){
     });
 
     /*
+     * GET all entries as a timeline.js compatible data structure.
+     */
+
+    app.get('/rest/entry/as-timeline', function(req, res){
+        var timeline = {
+            "timeline":
+            {
+                "headline":"Sh*t People Say",
+                "type":"default",
+                "text":"People say stuff",
+                "startDate":"2012,1,26",
+                "date": [
+
+                ]
+            }
+        };
+
+        req.models.entry.find({}, function(err, findings){
+            var rv = [],
+                f,
+                begin,
+                end;
+
+            for(var i in findings){
+                f = findings[i];
+                begin = f.getBegin();
+                end = f.getEnd();
+                timeline['timeline']['date'].push(
+                    {
+                        "startDate": begin.getYear() + "," + begin.getMonth() + "," + begin.getDay() + "," + begin.getHours() + "," + begin.getMinutes() + "," + begin.getSeconds(),
+                        "endDate": end.getYear() + "," + end.getMonth() + "," + end.getDay() + "," + end.getHours() + "," + end.getMinutes() + "," + end.getSeconds(),
+                        "headline":"Entry " + f.getId(),
+                        "text":"<p>Runtime: " + begin.getDay() + "." + begin.getMonth() + "." + begin.getYear()
+                                + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds() + " - "
+                                + end.getDay() + "." + end.getMonth() + "." + end.getYear()
+                                + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds() + "</p>",
+                        "data": JSON.stringify(f)
+                    }
+                );
+            }
+        });
+    })
+
+    /*
      * POST create a new Entry entry on the database. Return newly created item's id.
      *
      * Dates are parsed with Javascript's builtin *Date* constructor, then stringified
@@ -487,7 +531,16 @@ module.exports = function(app){
             }
         });
     });
-    
+
+    /*
+     * GET Access the related items in Entry.rooms
+     */
+
+    app.get('/rest/entry/:id/rooms/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getRooms()));
+        });
+    });
     
     app.post('/rest/entry/:id/rooms/', function(req, res){
         var ids = req.body.ids.split(",");
@@ -509,6 +562,16 @@ module.exports = function(app){
             }); 
         });
      });
+
+    /*
+     * GET Access the related items in Entry.participants
+     */
+
+    app.get('/rest/entry/:id/people/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getParticipants()));
+        });
+    });
      
     app.post('/rest/entry/:id/participants/', function(req, res){
         var ids = req.body.ids.split(",");
@@ -530,6 +593,16 @@ module.exports = function(app){
             }); 
         });
      });
+
+    /*
+     * GET Access the related items in Location.people
+     */
+
+    app.get('/rest/entry/:id/resources/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getResources()));
+        });
+    });
      
     app.post('/rest/entry/:id/resources/', function(req, res){
         var ids = req.body.ids.split(",");
@@ -707,6 +780,16 @@ module.exports = function(app){
             }
         });
     });
+
+    /*
+     * GET Access the related items in Permission.roles
+     */
+
+    app.get('/rest/permission/:id/roles/', function(req, res){
+        req.models.permission.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getRoles()));
+        });
+    });
     
     /*
      * POST Update relation Permission.roles
@@ -819,6 +902,17 @@ module.exports = function(app){
         });
     });
 
+
+    /*
+     * GET Access the related items in Person.address
+     */
+
+    app.get('/rest/person/:id/address/', function(req, res){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getAddress()));
+        });
+    });
+
     /*
      * POST Update relation Person.address
      */
@@ -843,7 +937,17 @@ module.exports = function(app){
             }); 
         });
      });
-     
+
+    /*
+     * GET Access the related items in Person.roles
+     */
+
+    app.get('/rest/person/:id/roles/', function(req, res){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getRoles()));
+        });
+    });
+
     /*
      * POST Update relation Person.roles
      */
@@ -947,6 +1051,16 @@ module.exports = function(app){
                     }
                 });
             }
+        });
+    });
+
+    /*
+     * GET Access the related items in Resource.kind
+     */
+
+    app.get('/rest/resource/:id/kind/', function(req, res){
+        req.models.resource.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getKind()));
         });
     });
     
@@ -1133,7 +1247,16 @@ module.exports = function(app){
             }
         });
     });
-    
+
+    /*
+     * GET Access the related item in Location.address
+     */
+
+    app.get('/rest/location/:id/address/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getAddress()));
+        });
+    });
     
     /*
      * POST Update relation Location.address
@@ -1159,8 +1282,17 @@ module.exports = function(app){
             });
         });
      });
-     
-        
+
+    /*
+     * GET Access the related items in Location.buildings
+     */
+
+    app.get('/rest/location/:id/buildings/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getBuildings()));
+        });
+    });
+
     /*
      * POST Update relation Location.buildings
      */
@@ -1210,6 +1342,17 @@ module.exports = function(app){
             }); 
         });
      });
+
+
+    /*
+     * GET Access the related items in Location.people
+     */
+
+    app.get('/rest/location/:id/people/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(JSON.stringify(findings[0].getPeople()));
+        });
+    });
 
     /*** END Location ***
      ********************/

@@ -9,11 +9,11 @@
 
 var db_ = {
     type: "postgres",
-    user: "postgres",
-    pass: "uiaenrtd",
-    host: "localhost",
-    port: "",               // leave as empty string for default port
-    database: "postgres"
+    user: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["user"] || "postgres",
+    pass: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["password"] || "uiaenrtd",
+    host: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["host"] || "localhost",
+    port: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["port"] || "",               // leave as empty string for default port
+    database: process.env.VCAP_SERVICES["postgresql-9.1"][0]["credentials"]["name"] || "postgres"
 };
 
 var getDBConnectionString_ = function(){
