@@ -13,6 +13,8 @@ var express = require('express')
     , ormModels = require("./datamodel/ormModels")
     , secrets = require("./secrets");
 
+$postgress_json = process.env.VCAP_SERVICES;
+
 
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
@@ -88,9 +90,9 @@ app.configure(function(){
         expires: new Date(Date.now() + 900000)
 
     }));
-    app.use(orm.express(secrets.getDBConnectionString(), {
-        define: ormModels.setup
-    }));
+//    app.use(orm.express(secrets.getDBConnectionString(), {
+//        define: ormModels.setup
+//    }));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
