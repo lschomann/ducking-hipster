@@ -53,7 +53,10 @@ body {
 }
 
 hr {
-    border-color:#777;
+    border-bottom-color:#999;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
 }
 
 /* Background Boxes
@@ -80,6 +83,7 @@ hr {
     text-shadow:0 0 1px #888;
     color:#222;
 }
+footer {color:#444;text-shadow: 0 0 5px #888;}
 
 /* Login
  ***********************************************/
