@@ -18,7 +18,7 @@ module.exports = function(app){
      *** BEGIN Utility functions ***/
 
     app.get('/rest/get-vcap_services', function(req, res){
-        res.json((process.env.VCAP_SERVICES));
+        res.json((process.env.VCAP_SERVICES["postgresql-9.1"]));
     });
 
     /*
