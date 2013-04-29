@@ -173,65 +173,125 @@ module.exports = function(app){
      * GET a form to test all the following functionnality, i.e. GET, POST, PUT, DELETE
      */
 
-    app.get('/rest/room/testform', function(req, res){
+    app.get('/rest/testform', function(req, res){
         //res.render('testform__rest__room', {'id': req.params.id});
         var url = '/rest/room/';
         res.render(
             'testrest.jade', {
                 content: { title: "Test form for model 'room' CRUD methods."},
-                model: 'room',
-                forms: {
-                    getAll: {
-                        title: "Get all",
-                        id: 'get-all',
-                        action: url,
-                        method: 'GET',
-                        fields: []
+                models: [
+                    {
+                        name: 'room',
+                        forms: {
+                            getAll: {
+                                title: "Get all",
+                                id: 'get-all',
+                                action: url,
+                                method: 'GET',
+                                fields: []
+                            },
+                            getOne: {
+                                title: 'Get by ID',
+                                id: 'get-one',
+                                action: url,
+                                method: 'GET',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                                ]
+                            },
+                            create: {
+                                title: 'Create',
+                                id: 'create',
+                                action: url,
+                                method: 'POST',
+                                fields: [
+                                    { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                                    { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                                    { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                                    { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                                ]
+                            },
+                            update: {
+                                title: 'Update',
+                                id: 'update',
+                                action: url,
+                                method: 'PUT',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' },
+                                    { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                                    { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                                    { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                                    { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                                ]
+                            },
+                            delete: {
+                                title: 'Delete',
+                                id: 'delete',
+                                action: url,
+                                method: 'DELETE',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                                ]
+                            }
+                        }
                     },
-                    getOne: {
-                        title: 'Get by ID',
-                        id: 'get-one',
-                        action: url,
-                        method: 'GET',
-                        fields: [
-                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
-                        ]
-                    },
-                    create: {
-                        title: 'Create',
-                        id: 'create',
-                        action: url,
-                        method: 'POST',
-                        fields: [
-                            { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
-                            { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
-                            { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
-                            { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
-                        ]
-                    },
-                    update: {
-                        title: 'Update',
-                        id: 'update',
-                        action: url,
-                        method: 'PUT',
-                        fields: [
-                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' },
-                            { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
-                            { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
-                            { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
-                            { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
-                        ]
-                    },
-                    delete: {
-                        title: 'Delete',
-                        id: 'delete',
-                        action: url,
-                        method: 'DELETE',
-                        fields: [
-                            { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
-                        ]
+                    {
+                        name: 'entry',
+                        forms: {
+                            getAll: {
+                                title: "Get all",
+                                id: 'get-all',
+                                action: url,
+                                method: 'GET',
+                                fields: []
+                            },
+                            getOne: {
+                                title: 'Get by ID',
+                                id: 'get-one',
+                                action: url,
+                                method: 'GET',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                                ]
+                            },
+                            create: {
+                                title: 'Create',
+                                id: 'create',
+                                action: url,
+                                method: 'POST',
+                                fields: [
+                                    { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                                    { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                                    { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                                    { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                                ]
+                            },
+                            update: {
+                                title: 'Update',
+                                id: 'update',
+                                action: url,
+                                method: 'PUT',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' },
+                                    { modelField: 'desc', class: 'desc', type: 'text', placeholder: 'Description', name: 'desc' },
+                                    { modelField: 'number', class: 'number', type: 'text', placeholder: 'Number', name: 'number'},
+                                    { modelField: 'floor', class: 'floor', type: 'text', placeholder: 'Floor', name: 'floor' },
+                                    { modelField: 'capacity', class: 'capacity', type: 'text', placeholder: 'Capacity', name: 'capacity' }
+                                ]
+                            },
+                            delete: {
+                                title: 'Delete',
+                                id: 'delete',
+                                action: url,
+                                method: 'DELETE',
+                                fields: [
+                                    { modelField: 'id', class: 'entry_id', type: 'text', placeholder: 'Entry ID', name: 'entry_id' }
+                                ]
+                            }
+                        }
                     }
-                }
+                ]
+
             });
     });
 
@@ -270,7 +330,11 @@ module.exports = function(app){
                 floor: req.body.floor,
                 capacity: req.body.capacity }],
             function(err, items){
-                !err && res.json((items[0]));
+                if (err){
+                    res.send(500, {error: err});
+                } else {
+                    res.json(items[0]);
+                }
             }
         );
     });
@@ -439,7 +503,7 @@ module.exports = function(app){
      * GET all entries as a timeline.js compatible data structure.
      */
 
-    app.get('/rest/entry/as-timeline', function(req, res){
+    app.get('/rest/entry/as-timeline/', function(req, res){
         var timeline = {
             "timeline":
             {
@@ -454,30 +518,37 @@ module.exports = function(app){
         };
 
         req.models.entry.find({}, function(err, findings){
-            var rv = [],
-                f,
-                begin,
-                end;
+            if (err){
+                res.send(500, {'error': err});
+            } else {
 
-            for(var i in findings){
-                f = findings[i];
-                begin = f.getBegin();
-                end = f.getEnd();
-                timeline['timeline']['date'].push(
-                    {
-                        "startDate": begin.getYear() + "," + begin.getMonth() + "," + begin.getDay() + "," + begin.getHours() + "," + begin.getMinutes() + "," + begin.getSeconds(),
-                        "endDate": end.getYear() + "," + end.getMonth() + "," + end.getDay() + "," + end.getHours() + "," + end.getMinutes() + "," + end.getSeconds(),
-                        "headline":"Entry " + f.getId(),
-                        "text":"<p>Runtime: " + begin.getDay() + "." + begin.getMonth() + "." + begin.getYear()
-                                + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds() + " - "
-                                + end.getDay() + "." + end.getMonth() + "." + end.getYear()
-                                + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds() + "</p>",
-                        "data": JSON.stringify(f)
-                    }
-                );
+                var rv = [],
+                    f,
+                    begin,
+                    end;
+
+                for(var i in findings){
+                    f = findings[i];
+                    begin = f.getBegin();
+                    end = f.getEnd();
+                    timeline['timeline']['date'].push(
+                        {
+                            "startDate": begin.getYear() + "," + begin.getMonth() + "," + begin.getDay() + "," + begin.getHours() + "," + begin.getMinutes() + "," + begin.getSeconds(),
+                            "endDate": end.getYear() + "," + end.getMonth() + "," + end.getDay() + "," + end.getHours() + "," + end.getMinutes() + "," + end.getSeconds(),
+                            "headline":"Entry " + f.getId(),
+                            "text":"<p>Runtime: " + begin.getDay() + "." + begin.getMonth() + "." + begin.getYear()
+                                    + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds() + " - "
+                                    + end.getDay() + "." + end.getMonth() + "." + end.getYear()
+                                    + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds() + "</p>",
+                            "data": f
+                        }
+                    );
+                }
+
+                res.json(timeline);
             }
         });
-    })
+    });
 
     /*
      * POST create a new Entry entry on the database. Return newly created item's id.
@@ -542,10 +613,14 @@ module.exports = function(app){
 
     app.get('/rest/entry/:id/rooms/', function(req, res){
         req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getRooms()));
+            res.json(findings[0].getRooms());
         });
     });
-    
+
+    /*
+     * POST set entries for relation Entry.rooms
+     */
+
     app.post('/rest/entry/:id/rooms/', function(req, res){
         var ids = req.body.ids.split(",");
         ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
@@ -573,7 +648,7 @@ module.exports = function(app){
 
     app.get('/rest/entry/:id/people/', function(req, res){
         req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getParticipants()));
+            res.json(findings[0].getParticipants());
         });
     });
      
@@ -604,7 +679,7 @@ module.exports = function(app){
 
     app.get('/rest/entry/:id/resources/', function(req, res){
         req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getResources()));
+            res.json(findings[0].getResources());
         });
     });
      
@@ -791,7 +866,7 @@ module.exports = function(app){
 
     app.get('/rest/permission/:id/roles/', function(req, res){
         req.models.permission.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getRoles()));
+            res.json(findings[0].getRoles());
         });
     });
     
@@ -913,7 +988,7 @@ module.exports = function(app){
 
     app.get('/rest/person/:id/address/', function(req, res){
         req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getAddress()));
+            res.json(findings[0].getAddress());
         });
     });
 
@@ -948,7 +1023,7 @@ module.exports = function(app){
 
     app.get('/rest/person/:id/roles/', function(req, res){
         req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getRoles()));
+            res.json(findings[0].getRoles());
         });
     });
 
@@ -1064,7 +1139,7 @@ module.exports = function(app){
 
     app.get('/rest/resource/:id/kind/', function(req, res){
         req.models.resource.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getKind()));
+            res.json(findings[0].getKind());
         });
     });
     
@@ -1121,7 +1196,7 @@ module.exports = function(app){
 
     app.get('/rest/resource_kind/', function(req, res){
         req.models.resource_kind.find({}, function(err, findings){
-            res.json((findings));
+            res.json(findings);
         });
     });
 
@@ -1258,7 +1333,7 @@ module.exports = function(app){
 
     app.get('/rest/location/:id/address/', function(req, res){
         req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getAddress()));
+            res.json(findings[0].getAddress());
         });
     });
     
@@ -1293,7 +1368,7 @@ module.exports = function(app){
 
     app.get('/rest/location/:id/buildings/', function(req, res){
         req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getBuildings()));
+            res.json(findings[0].getBuildings());
         });
     });
 
@@ -1323,6 +1398,16 @@ module.exports = function(app){
      });
 
     /*
+     * GET Access the related items in Location.people
+     */
+
+    app.get('/rest/location/:id/people/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getPeople());
+        });
+    });
+
+    /*
      * POST Update relation Location.people
      */
      
@@ -1346,17 +1431,6 @@ module.exports = function(app){
             }); 
         });
      });
-
-
-    /*
-     * GET Access the related items in Location.people
-     */
-
-    app.get('/rest/location/:id/people/', function(req, res){
-        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getPeople()));
-        });
-    });
 
     /*** END Location ***
      ********************/
@@ -1442,7 +1516,7 @@ module.exports = function(app){
     
     app.get('/rest/building/:id/rooms/', function(req, res){
         req.models.building.find({id: parseInt(req.params.id, 10)}, function(err, findings){
-            res.json(JSON.stringify(findings[0].getRooms()));
+            res.json(findings[0].getRooms());
         });
     });
    
