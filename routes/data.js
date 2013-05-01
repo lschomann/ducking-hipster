@@ -234,7 +234,6 @@ module.exports = function(app){
      * GET the Room object specified by *id*.
      */
 
-
     app.get('/rest/room/:id', function(req, res){
         var obj = req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
@@ -244,6 +243,7 @@ module.exports = function(app){
             }
         });
     });
+
     /*
      * GET all Room objects.
      */
