@@ -16,22 +16,7 @@ include includes/head
                         img(src='images/logo30x30.png')
                         | Ducking-Hipster
                     li.dropdown
-                        a.dropdown-toggle(data-toggle='dropdown', href='#') File
-                        ul.dropdown-menu
-                            li
-                                a#timeline(href='#') Show Timeline
-                            li
-                                a(href='#') Another action
-                            li
-                                a(href='#') Something else here
-                            li.divider
-                            li.nav-header Nav header
-                            li
-                                a(href='#') Seperated Link
-                            li
-                                a(href='#') One more separated link
-                    li.dropdown
-                        a.dropdown-toggle(data-toggle='dropdown', href='#') Edit
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Datei
                         ul.dropdown-menu
                             li
                                 a(href='#') Action
@@ -46,7 +31,28 @@ include includes/head
                             li
                                 a(href='#') One more separated link
                     li.dropdown
-                        a.dropdown-toggle(data-toggle='dropdown', href='#') Help
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Bearbeiten
+                        ul.dropdown-menu
+                            li
+                                a(href='#') Action
+                            li
+                                a(href='#') Another action
+                            li
+                                a(href='#') Something else here
+                            li.divider
+                            li.nav-header Nav header
+                            li
+                                a(href='#') Seperated Link
+                            li
+                                a(href='#') One more separated link
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Ansicht
+                        ul.dropdown-menu
+                            li
+                                a#timeline(href='#') Zeige Timeline
+
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#') Hilfe
                         ul.dropdown-menu
                             li
                                 a(href='#') Action
@@ -66,14 +72,18 @@ include includes/head
     .container-fluid
         .row-fluid
             .span3
-                .well
-                    ul.nav.nav-list
-                        li.nav-header Navigation
-                        li.active
-                            a( href="#") Home
-                        li
-                            a( href="#" ) Library
-            .span9
+                .well#menu
+                    #filter
+                        h3 Datum
+                        .cal1
+                        h3 Raumgröße
+                        input#amount(type="text", placeholder="Anzahl Personen" )
+                        hr
+                        .btn.btn-inverse#search
+                            i.icon-search.icon-white
+                            | &nbsp;Suchen
+
+            .span9#content
                 .well
                     #timeline-embed
 

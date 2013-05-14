@@ -32,9 +32,6 @@ exports.setup = function(db, models) {
 
     models.person.hasMany("roles", models.role, {}, {reverse: "members"});
 
-
-
-
     models.room = db.define(
         "room",
         {   desc:       {type: "text", size: 255},

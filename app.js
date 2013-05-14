@@ -88,9 +88,11 @@ app.configure(function(){
         expires: new Date(Date.now() + 900000)
 
     }));
+
     app.use(orm.express(secrets.getDBConnectionString(), {
         define: ormModels.setup
     }));
+
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
@@ -121,11 +123,9 @@ app.post('/login', function(req, res, next) {
         });
     })(req, res, next);
 });
-
-
-
 /* Error Handling
  * * * * * * * * * * * * * * * * * * * * * */
+
 app.use(function(req, res, next){
     res.sendfile('./static_pages/404.html');
 });
@@ -134,7 +134,7 @@ app.use(function(err, req, res, next){
     console.error(err.stack);
     res.send(500, 'Something broke!');
 });
-
 http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
+
