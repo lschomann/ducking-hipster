@@ -807,6 +807,46 @@ module.exports = function(app){
         });
     });
 
+
+    /*
+     * GET Access the related items in Permission.roles
+     */
+
+    app.get('/rest/permission/:id/roles/', function(req, res){
+        req.models.permission.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getRoles());
+        });
+    });
+
+    /*
+     * POST Update relation Permission.roles
+     */
+
+    app.post('/rest/permission/:id/roles/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.permission.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            if (err){
+                res.send(500, {'error': err});
+            } else {
+                req.models.role.find({id: ids}, function(err, findings_){
+                    if (err) {
+                        res.send(500, {'error': err});
+                    } else {
+                        findings[0].setRoles(findings_, function(err){
+                            if (err){
+                                res.send(500, {'error': err});
+                            } else {
+                                res.send(200);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     /*** END Permission ***
      **********************/
 
