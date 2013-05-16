@@ -446,6 +446,57 @@ module.exports = function(app){
     });
 
     /*
+     * GET all entries as a timeline.js compatible data structure.
+     */
+
+    app.get('/rest/entry/as-timeline/', function(req, res){
+        var timeline = {
+            "timeline":
+            {
+                "headline":"Sh*t People Say",
+                "type":"default",
+                "text":"People say stuff",
+                "startDate":"2012,1,26",
+                "date": [
+
+                ]
+            }
+        };
+
+        req.models.entry.find({}, function(err, findings){
+            if (err){
+                res.send(500, {'error': err});
+            } else {
+
+                var rv = [],
+                    f,
+                    begin,
+                    end;
+
+                for(var i in findings){
+                    f = findings[i];
+                    begin = f.getBegin();
+                    end = f.getEnd();
+                    timeline['timeline']['date'].push(
+                        {
+                            "startDate": begin.getYear() + "," + begin.getMonth() + "," + begin.getDay() + "," + begin.getHours() + "," + begin.getMinutes() + "," + begin.getSeconds(),
+                            "endDate": end.getYear() + "," + end.getMonth() + "," + end.getDay() + "," + end.getHours() + "," + end.getMinutes() + "," + end.getSeconds(),
+                            "headline":"Entry " + f.getId(),
+                            "text":"<p>Runtime: " + begin.getDay() + "." + begin.getMonth() + "." + begin.getYear()
+                                + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds() + " - "
+                                + end.getDay() + "." + end.getMonth() + "." + end.getYear()
+                                + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds() + "</p>",
+                            "data": f
+                        }
+                    );
+                }
+
+                res.json(timeline);
+            }
+        });
+    });
+
+    /*
      * POST create a new Entry entry on the database. Return newly created item's id.
      *
      * Dates are parsed with Javascript's builtin *Date* constructor, then stringified
