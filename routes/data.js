@@ -1080,6 +1080,43 @@ module.exports = function(app){
         });
     });
 
+
+    /*
+     * GET Access the related items in Resource.kind
+     */
+
+    app.get('/rest/resource/:id/kind/', function(req, res){
+        req.models.resource.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getKind());
+        });
+    });
+
+    /*
+     * POST Update relation Resource.kind
+     */
+
+    app.post('/rest/resource/:id/kind/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.resource.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.resource_kind.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setKind(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+
     /*** END Resource ***
      ********************/
 
