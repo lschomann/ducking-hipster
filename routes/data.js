@@ -1461,6 +1461,43 @@ module.exports = function(app){
         });
     });
 
+
+    /*
+     * GET Access the related items in Building.rooms
+     */
+
+    app.get('/rest/building/:id/rooms/', function(req, res){
+        req.models.building.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getRooms());
+        });
+    });
+
+    /*
+     * POST Update relation Building.rooms
+     */
+
+    app.post('/rest/building/:id/rooms/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.building.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.room.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRooms(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+
     /*** END Building ***
      ********************/
 };
