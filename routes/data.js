@@ -502,6 +502,103 @@ module.exports = function(app){
         });
     });
 
+    /*
+     * GET Access the related items in Entry.rooms
+     */
+
+    app.get('/rest/entry/:id/rooms/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getRooms());
+        });
+    });
+
+    /*
+     * POST set entries for relation Entry.rooms
+     */
+
+    app.post('/rest/entry/:id/rooms/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.room.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRooms(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    /*
+     * GET Access the related items in Entry.participants
+     */
+
+    app.get('/rest/entry/:id/participants/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getParticipants());
+        });
+    });
+
+    app.post('/rest/entry/:id/participants/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.people.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setParticipants(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    /*
+     * GET Access the related items in Location.people
+     */
+
+    app.get('/rest/entry/:id/resources/', function(req, res){
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getResources());
+        });
+    });
+
+    app.post('/rest/entry/:id/resources/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.entry.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.resource.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setResources(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
 
     /*** END Entry ***
      *****************/
