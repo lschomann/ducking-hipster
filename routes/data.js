@@ -929,6 +929,77 @@ module.exports = function(app){
     });
 
 
+    /*
+     * GET Access the related items in Person.address
+     */
+
+    app.get('/rest/person/:id/address/', function(req, res){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getAddress());
+        });
+    });
+
+    /*
+     * POST Update relation Person.address
+     */
+
+    app.post('/rest/person/:id/address/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.address.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setAddress(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    /*
+     * GET Access the related items in Person.roles
+     */
+
+    app.get('/rest/person/:id/roles/', function(req, res){
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getRoles());
+        });
+    });
+
+    /*
+     * POST Update relation Person.roles
+     */
+
+    app.post('/rest/person/:id/roles/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.person.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.role.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setRoles(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+
     /*** END Person ***
      ******************/
 
