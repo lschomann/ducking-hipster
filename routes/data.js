@@ -1275,6 +1275,112 @@ module.exports = function(app){
         });
     });
 
+
+    /*
+     * GET Access the related item in Location.address
+     */
+
+    app.get('/rest/location/:id/address/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getAddress());
+        });
+    });
+
+    /*
+     * POST Update relation Location.address
+     */
+
+    app.post('/rest/location/:id/address/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.address.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setAddress(findings_[0], function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    /*
+     * GET Access the related items in Location.buildings
+     */
+
+    app.get('/rest/location/:id/buildings/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getBuildings());
+        });
+    });
+
+    /*
+     * POST Update relation Location.buildings
+     */
+
+    app.post('/rest/location/:id/buildings/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.location.find({id: req.params.id}, function(err, findings){
+            req.models.buildings.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setBuildings(findings, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    /*
+     * GET Access the related items in Location.people
+     */
+
+    app.get('/rest/location/:id/people/', function(req, res){
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            res.json(findings[0].getPeople());
+        });
+    });
+
+    /*
+     * POST Update relation Location.people
+     */
+
+    app.post('/rest/location/:id/people/', function(req, res){
+        var ids = req.body.ids.split(",");
+        ids.forEach(function(obj, idx, arr){ arr[idx] = parseInt(obj, 10); } );
+
+        req.models.location.find({id: parseInt(req.params.id, 10)}, function(err, findings){
+            req.models.people.find({id: ids}, function(err, findings_){
+                if (err) {
+                    res.send(500, {'error': err});
+                } else {
+                    findings[0].setPeople(findings_, function(err){
+                        if (err){
+                            res.send(500, {'error': err});
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
     /*** END Location ***
      ********************/
 
