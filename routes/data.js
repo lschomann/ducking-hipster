@@ -44,7 +44,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -61,7 +60,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -75,7 +73,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -89,7 +86,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -103,7 +99,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -119,7 +114,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -134,7 +128,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -148,7 +141,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -162,7 +154,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
@@ -176,7 +167,6 @@ module.exports = function(app){
                     if (err){
                         res.send(500, {error: err});
                     }
-                    res.json(items);
                 }
             );
             j++;
