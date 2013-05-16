@@ -8,7 +8,6 @@
 
 var _ = require("Underscore");
 var path = require("path");
-var DataModel = require(path.join(__dirname, "..", "datamodel", "datamodel"));
 var Passport = require("passport");
 
 
@@ -34,15 +33,18 @@ module.exports = function(app){
         };
 
         var maxEntries = 100;
-        var j;
+        var j = 0;
         while(j < maxEntries){
-            var obj = req.models.room.create(
+            req.models.room.create(
                 [{desc: pickAsMany(abc, 45),
                     number: _.random(500),
                     floor: _.random(100),
                     capacity: _.random(2000) }],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -50,13 +52,16 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.address.create(
+            req.models.address.create(
                 [ { street:pickAsMany(abc, 45),
                     number:_.random(500),
                     city:_.random(200),
                     zip:_.random(500)        }],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -64,10 +69,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.location.create(
+            req.models.location.create(
                 [ { name: pickAsMany(abc, 45) } ],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -75,10 +83,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.role.create(
+            req.models.role.create(
                 [ { desc: pickAsMany(abc, 16) } ],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -86,10 +97,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.permission.create(
+            req.models.permission.create(
                 [ { desc: pickAsMany(abc, 6) + "::" + pickAsMany(abc, 8) + "::" + pickAsMany(abc, 6) } ],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -97,12 +111,15 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.person.create(
+            req.models.person.create(
                 [ { fname: pickAsMany(abc, 15),
                     lname: pickAsMany(abc, 25),
                     email: pickAsMany(abc, 20) + "@" + pickAsMany(abc, 14) + "." + pickAsMany(abc, 3) }],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -110,11 +127,14 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.resource.create(
+            req.models.resource.create(
                 [ { desc: pickAsMany(abc, 15),
                     number: _.random(1235) }],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -122,10 +142,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.resource_kind.create(
+            req.models.resource_kind.create(
                 [ { desc: pickAsMany(abc, 15)}],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -133,10 +156,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.entry.create(
+            req.models.entry.create(
                 [ { begin: (new Date()).toISOString(), end: (new Date()).toISOString()}],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -144,10 +170,13 @@ module.exports = function(app){
 
         j = 0;
         while(j < maxEntries){
-            var obj = req.models.building.create(
+            req.models.building.create(
                 [ { desc: pickAsMany(abc, 25)}],
                 function(err, items){
-                    !err && res.json((items[0]));
+                    if (err){
+                        res.send(500, {error: err});
+                    }
+                    res.json(items);
                 }
             );
             j++;
@@ -155,7 +184,7 @@ module.exports = function(app){
     });
 
     app.get("/rest/drop-data/", function(req, res){
-        orm
+
     });
 
      /**** END Utility functions ****
@@ -235,7 +264,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/room/:id', function(req, res){
-        var obj = req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.room.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -249,7 +278,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/room/', function(req, res){
-        var objs = req.models.room.find({}, function(err, findings){
+        req.models.room.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -259,7 +288,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/room/', function(req, res){
-        var obj = req.models.room.create(
+        req.models.room.create(
             [{desc: req.body.desc,
                 number: req.body.number,
                 floor: req.body.floor,
@@ -315,7 +344,7 @@ module.exports = function(app){
 
 
     app.get('/rest/address/:id', function(req, res){
-        var obj = req.models.address.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.address.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -328,7 +357,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/address/', function(req, res){
-        var objs = req.models.address.find({}, function(err, findings){
+        req.models.address.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -338,7 +367,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/address/', function(req, res){
-        var obj = req.models.address.create(
+        req.models.address.create(
             [{street: req.body.street,
                 number: req.body.number,
                 city: req.body.city,
@@ -403,7 +432,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/entry/:id', function(req, res){
-        var obj = req.models.entry.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.entry.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -421,7 +450,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/entry/', function(req, res){
-        var objs = req.models.entry.find({}, function(err, findings){
+        req.models.entry.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -434,7 +463,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/entry/', function(req, res){
-        var obj = req.models.entry.create(
+        req.models.entry.create(
             [{begin: (new Date(req.body.begin)).toISOString(),
                 end: (new Date(req.body.end)).toISOString()}],
             function(err, items){
@@ -495,7 +524,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/role/:id', function(req, res){
-        var obj = req.models.role.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.role.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -508,7 +537,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/role/', function(req, res){
-        var objs = req.models.role.find({}, function(err, findings){
+        req.models.role.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -518,7 +547,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/role/', function(req, res){
-        var obj = req.models.role.create(
+        req.models.role.create(
             [{desc: req.body.desc}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -574,7 +603,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/permission/:id', function(req, res){
-        var obj = req.models.permission.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.permission.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -587,7 +616,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/permission/', function(req, res){
-        var objs = req.models.permission.find({}, function(err, findings){
+        req.models.permission.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -597,7 +626,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/permission/', function(req, res){
-        var obj = req.models.permission.create(
+        req.models.permission.create(
             [{desc: req.body.desc}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -652,7 +681,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/person/:id', function(req, res){
-        var obj = req.models.person.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.person.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -666,7 +695,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/person/', function(req, res){
-        var objs = req.models.person.find({}, function(err, findings){
+        req.models.person.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -676,7 +705,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/person/', function(req, res){
-        var obj = req.models.person.create(
+        req.models.person.create(
             [{fname: req.body.fname, lname: req.body.lname, email: req.body.email}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -734,7 +763,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource/:id', function(req, res){
-        var obj = req.models.resource.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.resource.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -748,7 +777,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource/', function(req, res){
-        var objs = req.models.resource.find({}, function(err, findings){
+        req.models.resource.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -758,7 +787,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/resource/', function(req, res){
-        var obj = req.models.resource.create(
+        req.models.resource.create(
             [{desc: req.body.desc, number: req.body.number}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -814,7 +843,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource_kind/:id', function(req, res){
-        var obj = req.models.resource_kind.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.resource_kind.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -828,7 +857,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/resource_kind/', function(req, res){
-        var objs = req.models.resource_kind.find({}, function(err, findings){
+        req.models.resource_kind.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -838,7 +867,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/resource_kind/', function(req, res){
-        var obj = req.models.resource_kind.create(
+        req.models.resource_kind.create(
             [{desc: req.body.desc, number: req.body.number}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -893,7 +922,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/location/:id', function(req, res){
-        var obj = req.models.location.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.location.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -907,7 +936,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/location/', function(req, res){
-        var objs = req.models.location.find({}, function(err, findings){
+        req.models.location.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -917,7 +946,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/location/', function(req, res){
-        var obj = req.models.location.create(
+        req.models.location.create(
             [{name: req.body.name}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -973,7 +1002,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/building/:id', function(req, res){
-        var obj = req.models.building.find( { id: parseInt(req.params.id) } , function(err, findings){
+        req.models.building.find( { id: parseInt(req.params.id) } , function(err, findings){
             if (err){
                 res.send(404, {'error': err});
             } else {
@@ -987,7 +1016,7 @@ module.exports = function(app){
      */
 
     app.get('/rest/building/', function(req, res){
-        var objs = req.models.building.find({}, function(err, findings){
+        req.models.building.find({}, function(err, findings){
             res.json((findings));
         });
     });
@@ -997,7 +1026,7 @@ module.exports = function(app){
      */
 
     app.post('/rest/building/', function(req, res){
-        var obj = req.models.building.create(
+        req.models.building.create(
             [{desc: req.body.desc}],
             function(err, items){
                 !err && res.json((items[0]));
@@ -1042,4 +1071,4 @@ module.exports = function(app){
 
     /*** END Building ***
      ********************/
-}
+};
